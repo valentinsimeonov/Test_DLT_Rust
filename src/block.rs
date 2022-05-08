@@ -9,6 +9,7 @@ pub struct Block
 	pub prev_block_hash: BlockHash,
 	pub nonce: u64,
 	pub payload: String,
+	pub difficulty: u128,
 }
 
 impl Debug for Block
@@ -30,7 +31,7 @@ impl Block
 		timestamp: u128,
 		prev_block_hash: BlockHash,
 		nonce: u64,
-		payload: String) -> Self
+		payload: String, difficulty: u128) -> Self
 		{
 			Block
 			{
@@ -40,9 +41,12 @@ impl Block
 				prev_block_hash,
 				nonce,
 				payload,
+				difficulty,
 			}
 		}
 }
+
+
 
 impl Hashable for Block
 {
@@ -55,7 +59,14 @@ impl Hashable for Block
 		bytes.extend(&self.prev_block_hash);
 		bytes.extend(&u64_bytes(&self.nonce));
 		bytes.extend(self.payload.as_bytes());
+		bytes.extend(&u128_bytes(&self.difficulty));
+
 
 		bytes
 	}
+}
+
+pub fn check_difficulty (hash: &BlockHash, difficulty: u128) -> bool
+{
+	difficulty > difficulty_bytes_as_u128(&hash)
 }
