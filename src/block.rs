@@ -16,11 +16,12 @@ impl Debug for Block
 {
 	fn fmt (&self, f: &mut Formatter) -> fmt::Result
 	{
-		write!(f, "Block[{}]: {} at: {} with: {}", 
+		write!(f, "Block[{}]: {} at: {} with: {} nonce: {}", 
 			&self.index,
 			&hex::encode(&self.hash),
 			&self.timestamp,
 			&self.payload,
+			&self.nonce,
 		)
 	}
 }
@@ -44,6 +45,20 @@ impl Block
 				difficulty,
 			}
 		}
+	/// Mining function
+	pub fn mine (&mut self)
+	{
+		for nonce_attempt in 0..(u64::max_value())
+		{
+			self.nonce = nonce_attempt;
+			let hash = self.hash();
+			if check_difficulty(&hash, self.difficulty)
+			{
+				self.hash = hash;
+				return ;
+			}
+		}
+	}
 }
 
 
