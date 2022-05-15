@@ -5,7 +5,7 @@ fn main()
 	let difficulty = 0x000fffffffffffffffffffffffffffff;
 	
 	
-	//index, timestamp,           nonce      Data(transactions stored)
+	                              //index, timestamp,       Data(transactions stored)
     let mut genesis_block = Block::new(0, now(), vec![0 ; 32], vec![
 		Transaction
 		{
