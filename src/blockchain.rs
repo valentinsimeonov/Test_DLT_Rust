@@ -1,33 +1,49 @@
 use super::*;
+
 use std::collections::HashSet;
 
+
+/*	Error Messages */
 #[derive(Debug)]
-pub enum BlockValidationErr
-{
-	MismatchedIndex,
-	InvalidHash,
-	AchronologicalTimestamp,
-	MismatchedPreviousHash,
-	InvalidGenesisBlockFormat,
-	InvalidInput,
-	InsufficientInputValue,
-	InvalidCoinbaseTransaction,
+pub enum BlockValidationErr {
+    MismatchedIndex,
+    InvalidHash,
+    AchronologicalTimestamp,
+    MismatchedPreviousHash,
+    InvalidGenesisBlockFormat,
+    InvalidInput,
+    InsufficientInputValue,
+    InvalidCoinbaseTransaction,
 }
-pub struct Blockchain
+
+
+
+
+/////////////////////////////////////////////////////////////////
+/*	Data Structure */
+////////////////////////////////////////////////////////////////
+pub struct Blockchain 
 {
 	pub blocks: Vec<Block>,
 	unspent_outputs: HashSet<Hash>,
-
 }
 
-impl Blockchain {
-    pub fn new () -> Self {
-        Blockchain {
-            blocks: vec![],
-            unspent_outputs: HashSet::new(),
-        }
-    }
 
+/*	Implementation */
+
+impl Blockchain
+{
+	/*	Constructor */
+	pub fn new () -> Self
+	{
+		Blockchain
+		{
+			blocks: vec![],
+			unspent_outputs:HashSet::new(),
+		}
+	}
+
+	/*	Block Checkers */
     pub fn update_with_block (&mut self, block: Block) -> Result<(), BlockValidationErr> {
         let i = self.blocks.len();
 
